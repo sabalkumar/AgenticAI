@@ -1,16 +1,58 @@
-```
-```plaintext
-# Calculate the value of the series 1 - 1/3 + 1/5 - 1/7 + ... for the first 10,000 terms
-def calculate_series(n_terms):
-    total = 0
-    for i in range(n_terms):
-        term = (-1) ** i / (2 * i + 1)  # Calculate each term in the series
-        total += term  # Add or subtract the term based on its position
-    total *= 4  # Multiply the total by 4
-    return total
+import boto3
+import json
 
-# Calculate the first 10,000 terms
-result = calculate_series(10000)
-print(result)
+def find_best_ami(cursor):
+    # Specify the AWS region
+    ec2_client = boto3.client('ec2', region_name='us-east-1')
 
-# Output: 3.1414926535900345
+    # Step 1: Describe available AMIs that are public
+    response = ec2_client.describe_images(
+        Filters=[
+            {'Name': 'is-public', 'Values': ['true']},
+            {'Name': 'architecture', 'Values': ['x86_64']},  
+            {'Name': 'virtualization-type', 'Values': ['hvm']},  
+            {'Name': 'name', 'Values': [cursor]}  
+        ]
+    )
+
+    amis = response['Images']
+
+    # Step 2: Get pricing information
+    pricing_client = boto3.client('pricing', region_name='us-east-1')
+    pricing_info = []
+
+    for ami in amis:
+        ami_id = ami['ImageId']
+        try:
+            price_response = pricing_client.get_products(
+                ServiceCode='AmazonEC2',
+                Filters=[
+                    {'Type': 'TERM_MATCH', 'Field': 'location', 'Value': 'US East (N. Virginia)'},
+                    {'Type': 'TERM_MATCH', 'Field': 'instanceType', 'Value': 't2.micro'},
+                    {'Type': 'TERM_MATCH', 'Field': 'productFamily', 'Value': 'Compute Instance'},
+                    {'Type': 'TERM_MATCH', 'Field': 'imageType', 'Value': 'linux'}
+                ]
+            )
+
+            for price_item in price_response['PriceList']:
+                price_data = json.loads(price_item)
+                ami_price = price_data['terms']['OnDemand']
+                pricing_info.append((ami_id, ami['Name'], ami_price))
+
+        except Exception as e:
+            print(f"Error fetching pricing for AMI {ami_id}: {e}")
+
+    # Sort based on price
+    pricing_info.sort(key=lambda x: x[2])  
+
+    # Step 3: Save the best option to a text file
+    best_ami = pricing_info[0]
+    with open('best_ami.txt', 'w') as f:
+        f.write(f"Best AMI: {best_ami[1]}\nAMI ID: {best_ami[0]}\nPrice: {best_ami[2]}")
+
+    return best_ami
+
+# Usage
+cursor_name = "my-cursor-app"  
+best_ami_info = find_best_ami(cursor_name)
+print(f"Best AMI found: {best_ami_info[1]}, AMI ID: {best_ami_info[0]}")
