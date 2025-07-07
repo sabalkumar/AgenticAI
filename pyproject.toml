@@ -8,6 +8,7 @@ dependencies = [
     "anthropic>=0.49.0",
     "autogen-agentchat>=0.4.9.2",
     "autogen-ext[grpc,mcp,ollama,openai]>=0.4.9.2",
+    "boto3>=1.39.3",
     "bs4>=0.0.2",
     "gradio>=5.22.0",
     "httpx>=0.28.1",
