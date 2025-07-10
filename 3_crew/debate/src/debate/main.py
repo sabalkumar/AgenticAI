@@ -18,7 +18,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        'motion': 'There needs to be strict laws to regulate LLMs',
+        'motion': 'Bahai adminstartraotrs should have regular training and development specifically about Bahai Consultation',
     }
     
     try:

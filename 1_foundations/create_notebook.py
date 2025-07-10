@@ -1,0 +1,503 @@
+import json
+
+notebook = {
+    "cells": [
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## The first big project - Professionally You!\n",
+                "\n",
+                "### And, Tool use.\n",
+                "\n",
+                "### But first: introducing AWS SES\n",
+                "\n",
+                "AWS SES (Simple Email Service) is a cost-effective email service for sending notifications and emails.\n",
+                "\n",
+                "It's easy to set up and use!\n",
+                "\n",
+                "1. First, you'll need an AWS account. If you don't have one, sign up at https://aws.amazon.com/\n",
+                "2. Once you have an AWS account, you'll need to:\n",
+                "   - Set up AWS SSO (Single Sign-On) for your account\n",
+                "   - Configure your AWS CLI with SSO\n",
+                "   - Verify your email address in SES (or domain if you have one)\n",
+                "   - If you're in sandbox mode, you'll also need to verify recipient email addresses\n",
+                "\n",
+                "3. Add these lines to your `.env` file:\n",
+                "\n",
+                "AWS_PROFILE=your_sso_profile_name  \n",
+                "AWS_REGION=ap-southeast-2  \n",
+                "SES_FROM_EMAIL=your_verified_email@example.com  \n",
+                "SES_TO_EMAIL=your_notification_email@example.com  \n",
+                "\n",
+                "4. Install dependencies: `uv add boto3 python-dotenv openai pypdf gradio`\n",
+                "\n",
+                "5. Configure AWS SSO (if not already done):\n",
+                "   ```bash\n",
+                "   aws configure sso\n",
+                "   ```\n",
+                "\n",
+                "For more detailed setup instructions, see: https://docs.aws.amazon.com/ses/latest/dg/setting-up.html"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 1,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "# imports\n",
+                "\n",
+                "from dotenv import load_dotenv\n",
+                "from openai import OpenAI\n",
+                "import json\n",
+                "import os\n",
+                "import boto3\n",
+                "from pypdf import PdfReader\n",
+                "import gradio as gr"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 2,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "# The usual start\n",
+                "\n",
+                "load_dotenv(override=True)\n",
+                "openai = OpenAI()"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 3,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "# For AWS SES with SSO\n",
+                "\n",
+                "aws_profile = os.getenv(\"AWS_PROFILE\")\n",
+                "aws_region = os.getenv(\"AWS_REGION\", \"ap-southeast-2\")\n",
+                "ses_from_email = os.getenv(\"SES_FROM_EMAIL\")\n",
+                "ses_to_email = os.getenv(\"SES_TO_EMAIL\")\n",
+                "\n",
+                "# Initialize SES client using SSO session\n",
+                "if aws_profile:\n",
+                "    ses_client = boto3.Session(profile_name=aws_profile).client('ses', region_name=aws_region)\n",
+                "else:\n",
+                "    # Fallback to default profile\n",
+                "    ses_client = boto3.client('ses', region_name=aws_region)\n",
+                "\n",
+                "print(f\"Using AWS profile: {aws_profile or 'default'}\")\n",
+                "print(f\"Using AWS region: {aws_region}\")"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 4,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "def send_email(subject, message):\n",
+                "    print(f\"Email: {subject} - {message}\")\n",
+                "    try:\n",
+                "        response = ses_client.send_email(\n",
+                "            Source=ses_from_email,\n",
+                "            Destination={\n",
+                "                'ToAddresses': [ses_to_email]\n",
+                "            },\n",
+                "            Message={\n",
+                "                'Subject': {\n",
+                "                    'Data': subject,\n",
+                "                    'Charset': 'UTF-8'\n",
+                "                },\n",
+                "                'Body': {\n",
+                "                    'Text': {\n",
+                "                        'Data': message,\n",
+                "                        'Charset': 'UTF-8'\n",
+                "                    }\n",
+                "                }\n",
+                "            }\n",
+                "        )\n",
+                "        print(f\"Email sent successfully: {response['MessageId']}\")\n",
+                "        return True\n",
+                "    except Exception as e:\n",
+                "        print(f\"Error sending email: {e}\")\n",
+                "        return False"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 5,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "def push(message):\n",
+                "    \"\"\"Send a notification email using AWS SES\"\"\"\n",
+                "    return send_email(\"Career Chat Notification\", message)"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "push(\"HEY!!\")"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 6,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "def record_user_details(email, name=\"Name not provided\", notes=\"not provided\"):\n",
+                "    push(f\"Recording interest from {name} with email {email} and notes {notes}\")\n",
+                "    return {\"recorded\": \"ok\"}"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 7,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "def record_unknown_question(question):\n",
+                "    push(f\"Recording {question} asked that I couldn't answer\")\n",
+                "    return {\"recorded\": \"ok\"}"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 8,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "record_user_details_json = {\n",
+                "    \"name\": \"record_user_details\",\n",
+                "    \"description\": \"Use this tool to record that a user is interested in being in touch and provided an email address\",\n",
+                "    \"parameters\": {\n",
+                "        \"type\": \"object\",\n",
+                "        \"properties\": {\n",
+                "            \"email\": {\n",
+                "                \"type\": \"string\",\n",
+                "                \"description\": \"The email address of this user\"\n",
+                "            },\n",
+                "            \"name\": {\n",
+                "                \"type\": \"string\",\n",
+                "                \"description\": \"The user's name, if they provided it\"\n",
+                "            }\n",
+                "            ,\n",
+                "            \"notes\": {\n",
+                "                \"type\": \"string\",\n",
+                "                \"description\": \"Any additional information about the conversation that's worth recording to give context\"\n",
+                "            }\n",
+                "        },\n",
+                "        \"required\": [\"email\"],\n",
+                "        \"additionalProperties\": False\n",
+                "    }\n",
+                "}"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 9,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "record_unknown_question_json = {\n",
+                "    \"name\": \"record_unknown_question\",\n",
+                "    \"description\": \"Always use this tool to record any question that couldn't be answered as you didn't know the answer\",\n",
+                "    \"parameters\": {\n",
+                "        \"type\": \"object\",\n",
+                "        \"properties\": {\n",
+                "            \"question\": {\n",
+                "                \"type\": \"string\",\n",
+                "                \"description\": \"The question that couldn't be answered\"\n",
+                "            },\n",
+                "        },\n",
+                "        \"required\": [\"question\"],\n",
+                "        \"additionalProperties\": False\n",
+                "    }\n",
+                "}"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 10,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "tools = [{\"type\": \"function\", \"function\": record_user_details_json},\n",
+                "        {\"type\": \"function\", \"function\": record_unknown_question_json}]"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "tools"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 11,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "# This function can take a list of tool calls, and run them. This is the IF statement!!\n",
+                "\n",
+                "def handle_tool_calls(tool_calls):\n",
+                "    results = []\n",
+                "    for tool_call in tool_calls:\n",
+                "        tool_name = tool_call.function.name\n",
+                "        arguments = json.loads(tool_call.function.arguments)\n",
+                "        print(f\"Tool called: {tool_name}\", flush=True)\n",
+                "\n",
+                "        # THE BIG IF STATEMENT!!!\n",
+                "\n",
+                "        if tool_name == \"record_user_details\":\n",
+                "            result = record_user_details(**arguments)\n",
+                "        elif tool_name == \"record_unknown_question\":\n",
+                "            result = record_unknown_question(**arguments)\n",
+                "\n",
+                "        results.append({\"role\": \"tool\",\"content\": json.dumps(result),\"tool_call_id\": tool_call.id})\n",
+                "    return results"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "globals()[\"record_unknown_question\"](\"this is a really hard question\")"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 12,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "# This is a more elegant way that avoids the IF statement.\n",
+                "\n",
+                "def handle_tool_calls(tool_calls):\n",
+                "    results = []\n",
+                "    for tool_call in tool_calls:\n",
+                "        tool_name = tool_call.function.name\n",
+                "        arguments = json.loads(tool_call.function.arguments)\n",
+                "        print(f\"Tool called: {tool_name}\", flush=True)\n",
+                "        tool = globals().get(tool_name)\n",
+                "        result = tool(**arguments) if tool else {}\n",
+                "        results.append({\"role\": \"tool\",\"content\": json.dumps(result),\"tool_call_id\": tool_call.id})\n",
+                "    return results"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 13,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "reader = PdfReader(\"me/linkedin.pdf\")\n",
+                "linkedin = \"\"\n",
+                "for page in reader.pages:\n",
+                "    text = page.extract_text()\n",
+                "    if text:\n",
+                "        linkedin += text\n",
+                "\n",
+                "with open(\"me/summary.txt\", \"r\", encoding=\"utf-8\") as f:\n",
+                "    summary = f.read()\n",
+                "\n",
+                "name = \"Ed Donner\""
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 14,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "system_prompt = f\"You are acting as {name}. You are answering questions on {name}'s website, \\\n",
+                "particularly questions related to {name}'s career, background, skills and experience. \\\n",
+                "Your responsibility is to represent {name} for interactions on the website as faithfully as possible. \\\n",
+                "You are given a summary of {name}'s background and LinkedIn profile which you can use to answer questions. \\\n",
+                "Be professional and engaging, as if talking to a potential client or future employer who came across the website. \\\n",
+                "If you don't know the answer to any question, use your record_unknown_question tool to record the question that you couldn't answer, even if it's about something trivial or unrelated to career. \\\n",
+                "If the user is engaging in discussion, try to steer them towards getting in touch via email; ask for their email and record it using your record_user_details tool. \"\n",
+                "\n",
+                "system_prompt += f\"\\n\\n## Summary:\\n{summary}\\n\\n## LinkedIn Profile:\\n{linkedin}\\n\\n\"\n",
+                "system_prompt += f\"With this context, please chat with the user, always staying in character as {name}.\"\n"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 15,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "def chat(message, history):\n",
+                "    messages = [{\"role\": \"system\", \"content\": system_prompt}] + history + [{\"role\": \"user\", \"content\": message}]\n",
+                "    done = False\n",
+                "    while not done:\n",
+                "\n",
+                "        # This is the call to the LLM - see that we pass in the tools json\n",
+                "\n",
+                "        response = openai.chat.completions.create(model=\"gpt-4o-mini\", messages=messages, tools=tools)\n",
+                "\n",
+                "        finish_reason = response.choices[0].finish_reason\n",
+                "        \n",
+                "        # If the LLM wants to call a tool, we do that!\n",
+                "         \n",
+                "        if finish_reason==\"tool_calls\":\n",
+                "            message = response.choices[0].message\n",
+                "            tool_calls = message.tool_calls\n",
+                "            results = handle_tool_calls(tool_calls)\n",
+                "            messages.append(message)\n",
+                "            messages.extend(results)\n",
+                "        else:\n",
+                "            done = True\n",
+                "    return response.choices[0].message.content"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "gr.ChatInterface(chat, type=\"messages\").launch()"
+            ]
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## And now for deployment\n",
+                "\n",
+                "This code is in `app_aws_ses.py`\n",
+                "\n",
+                "We will deploy to HuggingFace Spaces. Thank you student Robert M for improving these instructions.\n",
+                "\n",
+                "Before you start: remember to update the files in the \"me\" directory - your LinkedIn profile and summary.txt - so that it talks about you!  \n",
+                "Also check that there's no README file within the 1_foundations directory. If there is one, please delete it. The deploy process creates a new README file in this directory for you.\n",
+                "\n",
+                "1. Visit https://huggingface.co and set up an account  \n",
+                "2. From the Avatar menu on the top right, choose Access Tokens. Choose \"Create New Token\". Give it WRITE permissions.\n",
+                "3. Take this token and add it to your .env file: `HF_TOKEN=hf_xxx` and see note below if this token doesn't seem to get picked up during deployment  \n",
+                "4. From the 1_foundations folder, enter: `uv run gradio deploy` and if for some reason this still wants you to enter your HF token, then interrupt it with ctrl+c and run this instead: `uv run dotenv -f ../.env run -- uv run gradio deploy` which forces your keys to all be set as environment variables   \n",
+                "5. Follow its instructions: name it \"career_conversation\", specify app_aws_ses.py, choose cpu-basic as the hardware, say Yes to needing to supply secrets, provide your openai api key, your AWS credentials, and say \"no\" to github actions.  \n",
+                "\n",
+                "#### Extra note about the HuggingFace token\n",
+                "\n",
+                "A couple of students have mentioned the HuggingFace doesn't detect their token, even though it's in the .env file. Here are things to try:   \n",
+                "1. Restart Cursor   \n",
+                "2. Rerun load_dotenv(override=True) and use a new terminal (the + button on the top right of the Terminal)   \n",
+                "3. In the Terminal, run this before the gradio deploy: `$env:HF_TOKEN = \"hf_XXXX\"`   \n",
+                "Thank you James and Martins for these tips.  \n",
+                "\n",
+                "#### More about these secrets:\n",
+                "\n",
+                "If you're confused by what's going on with these secrets: it just wants you to enter the key name and value for each of your secrets -- so you would enter:  \n",
+                "`OPENAI_API_KEY`  \n",
+                "Followed by:  \n",
+                "`sk-proj-...`  \n",
+                "\n",
+                "And if you don't want to set secrets this way, or something goes wrong with it, it's no problem - you can change your secrets later:  \n",
+                "1. Log in to HuggingFace website  \n",
+                "2. Go to your profile screen via the Avatar menu on the top right  \n",
+                "3. Select the Space you deployed  \n",
+                "4. Click on the Settings wheel on the top right  \n",
+                "5. You can scroll down to change your secrets, delete the space, etc.\n",
+                "\n",
+                "#### And now you should be deployed!\n",
+                "\n",
+                "Here is mine: https://huggingface.co/spaces/ed-donner/Career_Conversation\n",
+                "\n",
+                "I just got a push notification that a student asked me how they can become President of their country 😂😂\n",
+                "\n",
+                "For more information on deployment:\n",
+                "\n",
+                "https://www.gradio.app/guides/sharing-your-app#hosting-on-hf-spaces\n",
+                "\n",
+                "To delete your Space in the future:  \n",
+                "1. Log in to HuggingFace\n",
+                "2. From the Avatar menu, select your profile\n",
+                "3. Click on the Space itself and select the settings wheel on the top right\n",
+                "4. Scroll to the Delete section at the bottom\n",
+                "5. ALSO: delete the README file that Gradio may have created inside this 1_foundations folder (otherwise it won't ask you the questions the next time you do a gradio deploy)\n"
+            ]
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "<table style=\"margin: 0; text-align: left; width:100%\">\n",
+                "    <tr>\n",
+                "        <td style=\"width: 150px; height: 150px; vertical-align: middle;\">\n",
+                "            <img src=\"../assets/exercise.png\" width=\"150\" height=\"150\" style=\"display: block;\" />\n",
+                "        </td>\n",
+                "        <td>\n",
+                "            <h2 style=\"color:#ff7800;\">Exercise</h2>\n",
+                "            <span style=\"color:#ff7800;\">• First and foremost, deploy this for yourself! It's a real, valuable tool - the future resume..<br/>\n",
+                "            • Next, improve the resources - add better context about yourself. If you know RAG, then add a knowledge base about you.<br/>\n",
+                "            • Add in more tools! You could have a SQL database with common Q&A that the LLM could read and write from?<br/>\n",
+                "            • Bring in the Evaluator from the last lab, and add other Agentic patterns.\n",
+                "            </span>\n",
+                "        </td>\n",
+                "    </tr>\n",
+    "</table>"
+            ]
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "<table style=\"margin: 0; text-align: left; width:100%\">\n",
+                "    <tr>\n",
+                "        <td style=\"width: 150px; height: 150px; vertical-align: middle;\">\n",
+                "            <img src=\"../assets/business.png\" width=\"150\" height=\"150\" style=\"display: block;\" />\n",
+                "        </td>\n",
+                "        <td>\n",
+                "            <h2 style=\"color:#00bfff;\">Commercial implications</h2>\n",
+                "            <span style=\"color:#00bfff;\">Aside from the obvious (your career alter-ego) this has business applications in any situation where you need an AI assistant with domain expertise and an ability to interact with the real world.\n",
+                "            </span>\n",
+                "        </td>\n",
+                "    </tr>\n",
+    "</table>"
+            ]
+        }
+    ],
+    "metadata": {
+        "kernelspec": {
+            "display_name": ".venv",
+            "language": "python",
+            "name": "python3"
+        },
+        "language_info": {
+            "codemirror_mode": {
+                "name": "ipython",
+                "version": 3
+            },
+            "file_extension": ".py",
+            "mimetype": "text/x-python",
+            "name": "python",
+            "nbconvert_exporter": "python",
+            "pygments_lexer": "ipython3",
+            "version": "3.12.9"
+        }
+    },
+    "nbformat": 4,
+    "nbformat_minor": 2
+}
+
+# Write the notebook to file
+with open('4_lab4_aws_ses.ipynb', 'w') as f:
+    json.dump(notebook, f, indent=1)
+
+print("Notebook created successfully!") 
