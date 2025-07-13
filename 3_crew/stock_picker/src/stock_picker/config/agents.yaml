@@ -7,7 +7,7 @@ trending_company_finder:
   backstory: >
     You are a market expert with a knack for picking out the most interesting companies based on latest news.
     You spot multiple companies that are trending in the news.
-  llm: ollama/llama3.2
+  llm: deepseek/deepseek-chat
 
 financial_researcher:
   role: >
