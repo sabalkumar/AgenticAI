@@ -1,0 +1,218 @@
+[
+  {
+    "id": "RI3",
+    "name": "RI3",
+    "label": "R",
+    "fileName": "ri3"
+  },
+  {
+    "id": "PA_HIGHER",
+    "name": "PA_HIGHER",
+    "label": "Ṗ↑",
+    "fileName": "pa_higher"
+  },
+  {
+    "id": "GA2_HIGHER",
+    "name": "GA2_HIGHER",
+    "label": "Ġ↑",
+    "fileName": "ga2_higher"
+  },
+  {
+    "id": "GA3_HIGHER",
+    "name": "GA3_HIGHER",
+    "label": "Ġ↑",
+    "fileName": "ga3_higher"
+  },
+  {
+    "id": "NI3_LOWER",
+    "name": "NI3_LOWER",
+    "label": "N↓",
+    "fileName": "ni3_lower"
+  },
+  {
+    "id": "DA1",
+    "name": "DA1",
+    "label": "D",
+    "fileName": "da1"
+  },
+  {
+    "id": "MA1_LOWER",
+    "name": "MA1_LOWER",
+    "label": "M↓",
+    "fileName": "ma1_lower"
+  },
+  {
+    "id": "MA2_HIGHER",
+    "name": "MA2_HIGHER",
+    "label": "M↑",
+    "fileName": "ma2_higher"
+  },
+  {
+    "id": "RI1_HIGHER",
+    "name": "RI1_HIGHER",
+    "label": "Ṙ↑",
+    "fileName": "ri1_higher"
+  },
+  {
+    "id": "SA_HIGHER",
+    "name": "SA_HIGHER",
+    "label": "Ṡ↑",
+    "fileName": "sa_higher"
+  },
+  {
+    "id": "DA2_LOWER",
+    "name": "DA2_LOWER",
+    "label": "Ḍ↓",
+    "fileName": "da2_lower"
+  },
+  {
+    "id": "RI3_HIGHER",
+    "name": "RI3_HIGHER",
+    "label": "Ṙ↑",
+    "fileName": "ri3_higher"
+  },
+  {
+    "id": "RI2",
+    "name": "RI2",
+    "label": "R",
+    "fileName": "ri2"
+  },
+  {
+    "id": "DA3",
+    "name": "DA3",
+    "label": "D",
+    "fileName": "da3"
+  },
+  {
+    "id": "MA2_LOWER",
+    "name": "MA2_LOWER",
+    "label": "M↓",
+    "fileName": "ma2_lower"
+  },
+  {
+    "id": "N11_LOWER",
+    "name": "N11_LOWER",
+    "label": "N↓",
+    "fileName": "n11_lower"
+  },
+  {
+    "id": "SA",
+    "name": "SA",
+    "label": "S",
+    "fileName": "sa"
+  },
+  {
+    "id": "PA_LOWER",
+    "name": "PA_LOWER",
+    "label": "P↓",
+    "fileName": "pa_lower"
+  },
+  {
+    "id": "NI2_LOWER",
+    "name": "NI2_LOWER",
+    "label": "N↓",
+    "fileName": "ni2_lower"
+  },
+  {
+    "id": "GA2",
+    "name": "GA2",
+    "label": "G",
+    "fileName": "ga2"
+  },
+  {
+    "id": "DA2",
+    "name": "DA2",
+    "label": "D",
+    "fileName": "da2"
+  },
+  {
+    "id": "DA1_LOWER",
+    "name": "DA1_LOWER",
+    "label": "Ḍ↓",
+    "fileName": "da1_lower"
+  },
+  {
+    "id": "DA3_LOWER",
+    "name": "DA3_LOWER",
+    "label": "Ḍ↓",
+    "fileName": "da3_lower"
+  },
+  {
+    "id": "GA3",
+    "name": "GA3",
+    "label": "G",
+    "fileName": "ga3"
+  },
+  {
+    "id": "GA1",
+    "name": "GA1",
+    "label": "G",
+    "fileName": "ga1"
+  },
+  {
+    "id": "GA1_HIGHER",
+    "name": "GA1_HIGHER",
+    "label": "Ġ↑",
+    "fileName": "ga1_higher"
+  },
+  {
+    "id": "MA1",
+    "name": "MA1",
+    "label": "M",
+    "fileName": "ma1"
+  },
+  {
+    "id": "MA1_HIGHER",
+    "name": "MA1_HIGHER",
+    "label": "M↑",
+    "fileName": "ma1_higher"
+  },
+  {
+    "id": "MA2",
+    "name": "MA2",
+    "label": "M",
+    "fileName": "ma2"
+  },
+  {
+    "id": "NI1",
+    "name": "NI1",
+    "label": "N",
+    "fileName": "ni1"
+  },
+  {
+    "id": "NI1_LOWER",
+    "name": "NI1_LOWER",
+    "label": "N↓",
+    "fileName": "ni1_lower"
+  },
+  {
+    "id": "NI2",
+    "name": "NI2",
+    "label": "N",
+    "fileName": "ni2"
+  },
+  {
+    "id": "NI3",
+    "name": "NI3",
+    "label": "N",
+    "fileName": "ni3"
+  },
+  {
+    "id": "PA",
+    "name": "PA",
+    "label": "P",
+    "fileName": "pa"
+  },
+  {
+    "id": "RI1",
+    "name": "RI1",
+    "label": "R",
+    "fileName": "ri1"
+  },
+  {
+    "id": "RI2_HIGHER",
+    "name": "RI2_HIGHER",
+    "label": "Ṙ↑",
+    "fileName": "ri2_higher"
+  }
+]
