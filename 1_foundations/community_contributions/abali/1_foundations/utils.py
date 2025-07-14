@@ -45,6 +45,7 @@ load_dotenv(override=True)
 openai = OpenAI()
 anthropic = Anthropic()
 ollama = OpenAI(base_url='http://localhost:11434/v1', api_key='ollama')
+deepseek = OpenAI(base_url='https://api.deepseek.com/v1', api_key=deepseek_api_key)
 
 # Functions 
 def ask_openai(messages:str, model_name):
@@ -84,11 +85,24 @@ def ask_ollama(messages:str, model_name):
     )
     return response.choices[0].message.content
 
+def ask_deepseek(messages:str, model_name):
+    """
+    Ask the DeepSeek API with the given messages and model name.
+    If model_name is None, use the default model "deepseek-chat".
+    Returns the response content.
+    """
+    response = deepseek.chat.completions.create(
+        model="deepseek-chat" if model_name is None else model_name,
+        messages=messages,
+    )
+    return response.choices[0].message.content
+
 # define the mapping of LLM names to functions
 lmm_func_map = {
     "openai": ask_openai,
     "anthropic": ask_anthropic,
-    "ollama": ask_ollama
+    "ollama": ask_ollama,
+    "deepseek": ask_deepseek
 }
 
 def ask_llm(llm:str, messages:str, model_name=None):
