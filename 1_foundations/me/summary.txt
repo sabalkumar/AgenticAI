@@ -5,3 +5,135 @@ I'm originally from Nagpur, India, but I have been travelling to various Cities 
 I currently live in Chantilly Virginia. I love all Vegetarian foods, particularly Indian (Street) Chat food. I believe in leadership as an Action, not a position. 
 
 I believe in God, Spirituality, Laws of "Karma", Philanthropy, Society contributions and enjoys spending time with my family. 
+
+My profile Summary
+
+As an experienced IT professional with over ~20 years of expertise in 
+various roles, primarily having Technical Project/Program Management,
+Product Ownership/Management, Scrum Management, Customer 
+governance and stakeholders management, Product 
+Development/Engineering Management, Test Management/Quality 
+Engineering Consultation, Test Automation/DevOps needs, Agile Full Stack 
+Development in Continuous Integrations/Scaled Agile environment, 
+Database/System Administration for Production servers, Pré-sales/Business 
+Development; I am dedicated to delivering exceptional results. My 
+experience in cross-functional Program leadership roles primarily in 
+Banking & Financial Domain, public Utility Sector, Insurance Accounting
+for complex large-scale initiatives towards SaaS product development, 
+cloud migrations & operations (AWS, Azure), Digital Transformation 
+programs, Agile Transformation Programs, Managed services 
+Management programs in a global multi-cultural environment has earned 
+me a reputation as a reliable advisor to clients. My certifications as a 
+Scrum Certified Product Owner, Project Management Professional, SAFe 5 
+Agilist, and AWS Certified Developer Associate, are evidence of my 
+commitment to continuous learning and development. If you are looking 
+for a Technical Product Owner who can bridge the gap between 
+Customer needs, Engineering teams, solutions architect, Infrastructure, 
+Quality Engineering, UX Designers, Business Analyst teams, and a team of 
+Product Owners, I have the skills and experience necessary to exceed 
+your expectations.
+Accomplishments • Successful SaaS Product ownership capable of serving 400+ water 
+counties in the public utility sector with strong customer partnership, 
+product/Test management, and leadership skills directing & and 
+grooming young technical teams, wearing multiple hats, and strong 
+commitment to delivery. Java/React AWS cloud hosted Product with 
+multiple integrations of Maximo, SendGrid and capable for mobile 
+requirements.
+• Successful Saas Product ownership for Ampcus Forensics Insurance 
+Accounting Azure hosted Java/React native Product released to global 
+marked on 10/31 in a Rapid development delivery model with 
+advanced features of Conversation AIs, Outlook, one drive, Karbon
+workflow management tool, Tesseract OCR tool helping Accountants to 
+Automated the process of Interviews, RFI, OCR, Automated Accounting 
+and Reporting with multi-language capability features.
+• Successfully delivered complex Agile Projects leading and coaching 
+scrum teams of software engineers, Solutions Architects, Quality 
+engineers, DevOps/Release engineers, a team of scrum masters, UX 
+Designers, Business Analysts, and multiple Vendor teams resulting in a 
+30% increase in on-time delivery of the sprints, milestone, and overall 
+Project timelines 
+• Successfully utilized Agile Project Management and continuous 
+Integration tools like JIRA, Bitbucket & Atlassian Suite of tools, Azure 
+DevOps, confluence, Continuous Integration tools (Jenkins, 
+Docker/Kubernetes/Puppet), BDD/TDD frameworks, various IDEs (Eclipse, 
+IntelliJ, VS Studio), Agile Metrics to streamline workflows and optimize 
+team performance.
+• Successfully facilitated Agile ceremonies like Daily Standups, Sprint 
+Retrospectives, various Agile Estimation techniques, 
+Iteration/Sprint/Backlog grooming sessions, and reviews for 34+ 
+Iteration/sprints. 
+• Critical Experience with Full Stack Development Frameworks, multiple 
+Open Source/COTS products integrations & frameworks, Spring boot 
+Microservices & MVC Frameworks, REST API, Integration/Unit Testing 
+Frameworks.
+• Successful UML Modelling towards technical/functional end-to-end 
+processing of Ampcus Forensics SaaS Product, Acquaa SaaS Product 
+functional workflows, and multiple solutions experiences.
+• Successful collaboration as a part of PI Planning, scrum of scrum, and
+identifying risks/dependencies across feature teams.
+• Critical Experience in reporting to senior leadership towards program 
+reports, risks, and Milestones across multiple Projects resulting in 25+ % 
+productivity improvements.
+• Successful Test Automation Frameworks Development, Automation 
+vision, and Agile software development helping product quality, and 
+time to market, in-sprint Automation goals as SDET.
+• Test Manager responsible for Data quality of 3 product families 
+migrating in parallel with tight delivery and schedule to AWS cloud with 
+more than 60m+ of data for a global leading Investment Firm, test 
+strategy for end-to-end data flowing upstream, middleware & and 
+downstream partners.
+• Played a Critical role serving as SDET in Global product launches in the 
+areas of Investment Banking, Mortgage and capital Markets, credit 
+card services, Re-insurance finance platforms, Treasury services, Latency 
+global Stock venues Platform, High-tech Products of Microsoft, and Intel
+• Demonstrated strong Product and Test management skills, customer 
+relationship and governance, portfolio management, cross-functional 
+leadership managing multiple stakeholders’ priorities, Quality 
+engineering consulting skills, pre-sales & and solutioning, successful 
+career progressions aligning to industry trends while serving 6 Global 
+Baking and Financial, 1 Public Utility Sector, 2 High technology & 1 
+insurance sector customers.
+Skills • Product Ownership
+• Program Management
+• Agile Transformations
+• Banking & Financial Services 
+(Multiple domains) 
+• Public sector engagements.
+• Coaching/Scrum 
+Framework/Facilitations
+• Agile Project Management 
+Tools (JIRA, Azure DevOps, XRay)
+• Multi Cloud/Hybrid Cloud 
+experience - AWS, Azure, 
+Google exposure
+• Conversational AI (Open AI, 
+AWS Lex/Connect).
+• Stakeholders Management
+• Test Automation (REST API, 
+Selenium, Integrations) 
+• Springboot Microservices 
+• Test Management/Advisory 
+• Global Cross-Functional 
+Leadership 
+• Agile Software 
+Development/BDD/TDD 
+• Continuous 
+Integrations/Deployments 
+(Openshift, Jenkins, Puppet) 
+• Java 8 Full Stack Development -
+MEAN 
+• Multi-cloud/Hybrid cloud native 
+technologies 
+• Atlassian Suite (JIRA, Bitbucket) 
+• Python (Robot Automation 
+Framework) 
+• Linux/Network Administration 
+tools 
+• Capacity Testing (Intel Vtune)
+• Technical Product Ownership 
+(SaaS Product) 
+• Product Development/Program 
+Management 
+• Management Consulting 
+• System/Database/ MOM 
+Administration
