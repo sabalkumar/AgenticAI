@@ -1,0 +1,84 @@
+
+# Handling Real-Time Event Dates in AI-Powered Interactive CVs by Felipe Meza-Obando
+
+## Problem Statement
+
+When building an intelligent agent (using OpenAI or similar LLM APIs) to serve as an interactive, conversational CV — capable of answering questions like:
+
+- "What was your most recent conference?"
+- "What is your next scheduled seminar or event?"
+
+—you will encounter an unexpected issue:
+
+> The OpenAI API assumes the current date is the model's **last training cutoff** (e.g., June 2023 for GPT-4), **not the actual current date**.
+
+This means that any CV entry from **late 2023, 2024, or beyond** may be misunderstood as either **not yet occurred** or **in the distant future**, even if those events are in the past or coming up soon.
+
+---
+
+## 💡 Real-World Use Case
+
+Suppose you ask your AI assistant:
+
+> _“Which symposium did I recently attend?”_
+
+The model might reply:
+
+> _“The last symposium you attended was in January 2023.”_
+
+Even if you attended events in 2024 or 2025. That’s because the model still believes it’s mid-2023 — unless explicitly told otherwise.
+
+This becomes especially problematic in dynamic CVs or academic portfolios that include upcoming speaking engagements, research workshops, or invited conferences.
+
+---
+
+## Effective Solution: Inject Current Date on system prompt
+
+To fix this, inject a short system prompt that **sets the actual current date**. This allows the model to correctly classify events as past or future.
+
+---
+
+## 🧪 Example (Before vs After)
+
+### ❌ Without Date Injection
+
+**User:** What is my next research event?  
+**GPT (default):** Your next scheduled event is in January 2023.  
+➡️ _(Incorrect – that’s in the past!)_
+
+### ✅ With Date Injection
+
+**User:** What is my next research event?  
+**GPT (with date context):** You will participate in the United Nations/Costa Rica Workshop on ML and Space Weather in February 2026.  
+➡️ _(Correct – now the agent understands time)_
+
+---
+
+## 🛠️ How to Implement It
+
+```python
+from datetime import datetime
+
+# Get today's date dynamically
+current_date = datetime.now().strftime("%B %d, %Y")
+
+# Create the system message to override the model's default internal date
+system_prompt = f"Today’s date is {current_date}. Use this as the current date for all responses."
+```
+
+---
+
+## 🧭 Why This Matters for Conversational CVs
+
+If your agent is designed to interact with users about their academic or professional timeline, having correct awareness of today’s date is **non-negotiable**.
+
+This prompt-based approach avoids hallucinations or outdated reasoning about:
+
+- Conference participation  
+- Research plans  
+- Graduation years  
+- Employment timelines  
+
+It’s lightweight, API-compatible, and doesn’t require function-calling or plugin features.
+
+Have fun! 
